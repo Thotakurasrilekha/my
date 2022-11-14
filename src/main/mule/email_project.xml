@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="39d1040a-3c3a-4b72-8561-cf650ef211fc" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="af9ba96c-8f50-4805-a3fb-9e4fb8498027" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="thotakura.srilekha1999@gmail.com" password="eafsbezxcnrieftw" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="email_projectFlow" doc:id="01c568a4-e466-4edc-a7ad-2e71689b7e94" >
+		<http:listener doc:name="Listener" doc:id="122f6854-cc50-41e9-8eb6-f67631309d6f" config-ref="HTTP_Listener_config" path="/email"/>
+		<email:send doc:name="Send" doc:id="045152a9-ae13-4005-bc05-7c291659d14a" config-ref="Email_SMTP" fromAddress="thotakura.srilekha1999@gmail.com" subject="hii venkatesh fine ha petta">
+			<email:to-addresses >
+				<email:to-address value="kvenkateshreddy064@gmail.com" />
+				<email:to-address value="pvnyamrutha@gmail.com" />
+			</email:to-addresses>
+			<email:reply-to-addresses />
+		</email:send>
+		<set-payload value="sucessfull" doc:name="Set Payload" doc:id="9c4107f3-8655-4f77-83a2-af81a1783252" />
+		<logger level="INFO" doc:name="Logger" doc:id="901b02d1-3fc4-4e6e-a118-b31dc66b841a" message="loggermessage"/>
+	</flow>
+</mule>
